@@ -12,7 +12,7 @@ Prof.: **Emílio Wuerges**
 
 Aluna: **Bárbara Pegoraro Markus**
 
-CIÊNCIA DA COMPUTAÇÃO
+*CIÊNCIA DA COMPUTAÇÃO*
 
 *UNIVERSIDADE FEDERAL DA FRONTEIRA SUL*
 
