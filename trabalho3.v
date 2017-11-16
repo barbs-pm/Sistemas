@@ -1,76 +1,75 @@
-module sign (
-    input [11:0] Px1, Py1, Px2, Py2, Px, Py,
-    output sign
-);
+/*
+*  ============================
+*  Anthony Nadaletti
+*  https://github.com/SrAnthony
+*  Bárbara Pegoraro
+*  https://github.com/barbs-pm
+*  ============================
+*
+*  Exemplo de triângulo:
+*  a(25,45) | b(5,25) | c(45,5)
+*
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdio_ext.h>
+#include <math.h>
+typedef struct{
+	int x, y;
+}Ponto;
 
-    wire signed [11:0] Sub1, Sub2, Sub3, Sub4;
+int area(Ponto a, Ponto b, Ponto c){
+	return ((a.x * b.y) + (a.y * c.x) + (b.x * c.y)) - ((c.x * b.y) + (b.x * a.y) + (a.x * c.y));
+}
 
-    wire signed [22:0] Mult1, Mult2, Sub5;
+int main(){
+	Ponto q, a, b, c;
+	int i, j, AB, AC, BC;
+	system("clear");
+	printf("   --- 50 x 50 ---\n");
+	printf("-| Informações do primeiro ponto (x,y)\n-| ");
+	scanf("%d %d",&a.x, &a.y);
 
-    assign Sub1 = Px - Py2;
-    assign Sub2 = Py1 - Py2;
-    assign Sub3 = Py1 - Px2;
-    assign Sub4 = Py - Py2;
+	printf("-| Informações do segundo ponto (x,y)\n-| ");
+    scanf("%d %d",&b.x, &b.y);
 
-    assign Mult1 = Sub1 * Sub2;
-    assign Mult2 = Sub3 * Sub4;
+	printf("-| Informações do terceiro ponto (x,y)\n-| ");
+    scanf("%d %d",&c.x, &c.y);
+	
+	int tam = area(a, b, c);
+	system("clear");
+	printf("                   \e[1mA área é: %d\e[0m\n  ", tam <= 0 ? -tam : tam);
+	for(i = 0; i < 50; i++) printf("_");
+	printf("\n |      a(%2d,%2d)   |   b(%2d,%2d)   |   c(%2d,%2d)      |\n |", a.x, a.y, b.x, b.y, c.x, c.y);
+	for(i = 0; i < 50; i++) printf("‾");
+	printf("|\n ");
 
-    assign Sub5 = Mult1 - Mult2;
+	for(i = 0; i < 50; i++){
+		printf("|");
+		for(j = 0; j < 50; j++){
 
-    assign sign = (Sub5 >= 0) ? 1 : 0; 
+			q.x = i;
+			q.y = j;
 
-endmodule
+			AB = area(a, b, q);
+			if(AB <= 0) AB = -AB;
+		
+			AC = area(a, c, q);
+			if(AC <= 0) AC = -AC;
+			
+			BC = area(b, c, q);
+			if(BC <= 0) BC = -BC;
 
-
-module TestTriangle (
-    input [11:0] Px1, Py1, Px2, Py2, Px3, Py3, Px, Py,
-    output inside
-);
-
-    wire sign1, sign2, sign3;
-
-    assign inside = (sign1 == 1 && sign2 == 1 && sign3 == 1) ? 1:0;
-
-    sign out1(Px1, Py1, Px2, Py2, Px, Py, sign1);
-    sign out2(Px2, Py2, Px3, Py3, Px, Py, sign2);
-    sign out3(Px3, Py3, Px1, Py1, Px, Py, sign3);
-
-endmodule
-
-module Test;
-    reg [11:0] Px1, Py1, Px2, Py2, Px3, Py3, Px, Py;
-    
-    wire inside;
-
-    TestTriangle A(Px1, Py1, Px2, Py2, Px3, Py3, Px, Py, inside);
-
-    initial
-        begin
-           $dumpvars(0,A);
-           #1
-
-           Px1 <= 10;
-           Py1 <= 10;
-           Px2 <= 30;
-           Py2 <= 10;
-           Px3 <= 20;
-           Py3 <= 30;
-           Px <= 15;
-           Py <= 15;
-
-           #1
-           Px <= 15;
-           Py <= 15;
-           #1
-           Px <= 9;
-           Py <= 15;
-           #1
-           Px <= 10;
-           Py <= 11;
-           #1
-           Px <= 30;
-           Py <= 11;
-           #40
-           $finish;
-        end
-endmodule
+			if(AB + AC + BC <= tam)
+				printf("*");
+			else
+				printf(" ");
+		}
+		printf("|\n ");
+	}
+	printf(" ");
+	for(i = 0; i < 50; i++)
+		printf("‾");
+	printf("\n");
+	return 0;
+}
