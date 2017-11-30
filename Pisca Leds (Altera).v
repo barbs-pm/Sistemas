@@ -1,5 +1,11 @@
-//Bárbara, Anthony, Pâmela
-
+/*************************
+  UFFS CHAPECÓ
+  github.com/barbs-pm
+  Barbara Pegoraro Markus
+  
+  Piscando Leds na placa
+      FPGA Altera
+**************************/
 module blink(
     input CLOCK_50,
     input [3:0] KEY,
